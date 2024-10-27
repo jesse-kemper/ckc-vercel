@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pet Hotel Log Application
+
+The Pet Hotel Log Application is a web-based tool designed to help pet hotels manage and log information about pets staying at their facility. This application allows users to input and store data about each pet's stay, including their name, room number, and various health and care details.
+
+## Features
+
+- Log pet details including name, room number, and date of stay.
+- Record information about pet's elimination, consumption, medication, and more.
+- Perform a "Nose to Tail" check with various health indicators.
+- Store data in a database for easy retrieval and management.
+
+## Technologies Used
+
+- **Next.js**: Frontend framework.
+- **Node.js**: Backend runtime environment.
+- **Express.js**: Web framework for Node.js.
+- **Prisma**: ORM for database management.
+- **SQLite3**: Database for storing pet logs.
+- **HTML/CSS**: Frontend structure and styling.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js and npm installed on your machine.
+- A PostgreSQL database (or adjust for SQLite as needed).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repository:**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   git clone https://github.com/yourusername/pet-hotel.git
+   cd pet-hotel
+   ```
 
-## Learn More
+2. **Install dependencies:**
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Set up the database:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   Update the `.env` file with your database credentials:
 
-## Deploy on Vercel
+   ```plaintext
+   DATABASE_URL="postgresql://user:password@localhost:5432/pethotel"
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   Run the following commands to set up the database:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   npx prisma generate
+   npx prisma db push
+   ```
+
+4. **Run the development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Usage
+
+- Fill out the form on the homepage with the pet's details.
+- Submit the form to save the data to the database.
+- Ensure all fields are filled out correctly to avoid errors.
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit a pull request for any improvements or bug fixes.
+
+## License
+
+This project is licensed under the ISC License.
+
+References:
+For Prisma setup and database configuration, see:
+
+# Create .env file
+cat > .env << 'EOL'
+DATABASE_URL="postgresql://user:password@localhost:5432/pethotel"
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-random-secret"
+EOL
+
+# Add .env to .gitignore
+echo ".env" >> .gitignore
+
+echo "Setup complete! Please update your .env file with your actual credentials."
+echo "Next steps:"
+echo "1. Update .env with your database and Google OAuth credentials"
+echo "2. Run 'npx prisma generate' to generate Prisma Client"
+echo "3. Run 'npx prisma db push' to push the schema to your database"
