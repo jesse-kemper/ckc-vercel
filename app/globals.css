@@ -1,5 +1,7 @@
 body {
   background-color: #eee;
+  background: #eee url('/ckcbg.png') no-repeat center center fixed;
+  background-size:cover;
   font-family: Arial, sans-serif;
   color: #333;
 }
@@ -7,9 +9,11 @@ body {
 .container {
   display: flex;
   width: 100%;
+  gap: 1em;
+
   max-width: 1200px; /* Adjust max width if needed */
   margin: 0 auto;
-  background-color: white;
+
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -18,11 +22,12 @@ body {
 .sidebar {
   flex: 0 0 250px;
   padding: 20px;
-  background-color: #f7f7f7;
+  background-color: #eee;
   border-right: 1px solid #ccc;
   align-items: center;
-
+  color:#5a1399;
   display: flex;
+  border-radius:6px;
   flex-direction: column;
 }
 
@@ -41,11 +46,43 @@ body {
   flex: 1;
   padding: 20px;
   background-color: #fff;
-  border-radius: 5px;
+  border-radius: 6px;
   border: 1px solid #ccc;
-  margin: 20px;
+  
 }
-
+.content h1, .content h2 {
+  text-align:center;
+}
+button {
+  background: rgb(122, 67, 159);
+  color: #FFF;
+  width: 100%;
+  padding: 18px;
+  border: 0px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  width: 80%;
+  align-items:center;
+  margin:auto;
+}
+.pagination button {
+  background: rgb(122, 67, 159);
+  color: #FFF;
+  padding: 10px;
+  border: 0px;
+  border-radius: 6px;
+  font-size: 14px;
+  max-width: 150px;
+  text-transform: uppercase;
+}
 /* Primary layout adjustments */
 .primary {
   display: flex;

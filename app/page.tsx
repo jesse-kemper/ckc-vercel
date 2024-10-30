@@ -31,7 +31,7 @@ export default function Home() {
               {session.user.locationName && (
                 <p>Location: {session.user.locationName}</p>
               )}
-              <LogoutButton />
+
               <hr />
               <nav className="primaryNav">
                 <button onClick={() => router.push("/")}>New Log</button>
