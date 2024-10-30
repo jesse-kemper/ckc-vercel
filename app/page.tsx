@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import PetLogForm from "./components/PetLogForm";
 import LoginForm from "./components/LoginForm";
-import LogoutButton from "./components/LogoutButton";
+//import LogoutButton from "./components/LogoutButton";
 
 export default function Home() {
   const { data: session, status } = useSession();
