@@ -1,54 +1,128 @@
 body {
-  background-color:#4CAF50; /* Change to a lighter color */
+  background-color: #eee;
   font-family: Arial, sans-serif;
   color: #333;
 }
+
 .container {
-  max-width: 600px; /* Adjusted for better layout */
-  margin: 20px auto;
-  padding: 20px;
+  display: flex;
+  width: 100%;
+  max-width: 1200px; /* Adjust max width if needed */
+  margin: 0 auto;
   background-color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-input[type="text"],
-input[type="date"] {
-  max-width: 100%; /* Ensure inputs don't span the whole form */
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+/* Sidebar styling */
+.sidebar {
+  flex: 0 0 250px;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-right: 1px solid #ccc;
+  align-items: center;
+
+  display: flex;
+  flex-direction: column;
 }
+
+.sidebar .loggedInMessage {
+  color: #000;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.sidebar .loggedInMessage p {
+  margin: 10px 0;
+}
+
+/* Content styling */
+.content {
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin: 20px;
+}
+
+/* Primary layout adjustments */
+.primary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.logo {
+  width: 220px;
+  max-width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+  }
+}
+form{
+  padding:10px;
+}
+input[type="text"], input[type="date"], input[type="email"], input[type="password"] {
+  width:100%;
+  padding:5px;
+  margin-top:10px;
+  height:20px;
+  margin-bottom:10px;  
+  }
 
 .radio-group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
   margin-top: 10px;
+  padding:20px;
+  background:#eee;
+  margin-bottom:10px;
+  border-radius:6px;
 }
 
-.radio-group label {
-  margin: 0;
+.radio-label {
+  flex: 1;
+  text-align: left;
+  margin-right: 10px;
 }
 
-.radio-group input[type="radio"] {
-  margin-right: 5px;
+.radio-options {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-button[type="submit"] {
-  background-color: #4a8e32;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 20px;
-  align-self: center;
+.primaryNav button {
+  background:rgb(122, 67, 159);
+  color: #FFF;
+  width:100%;
+  padding:14px;
+  border:0px;
+  border-radius: 6px;
+  font-size:14px;
+  text-transform:uppercase;
+  margin-top:10px;
 }
 
-button[type="submit"]:hover {
-  background-color: #45a049;
+.log-list li {
+  list-style-type: none;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  background:#eee;
 }

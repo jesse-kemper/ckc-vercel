@@ -1,6 +1,7 @@
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 generator client {
@@ -38,11 +39,21 @@ model User {
   id            String    @id @default(cuid())
   name          String?
   email         String?   @unique
+  password      String?   // For storing hashed passwords
   emailVerified DateTime?
   image         String?
+  locationId    Int?      // New column for Location ID
+  location      Location? @relation(fields: [locationId], references: [id]) // Define the relationship
   accounts      Account[]
   sessions      Session[]
   petLogs       PetLog[]
+}
+
+model Location {
+  id           Int      @id @default(autoincrement())
+  locationName String
+  users        User[]   // Define back-relation with User
+  PetLog       PetLog[]
 }
 
 model PetLog {
@@ -63,5 +74,7 @@ model PetLog {
   petType        String
   runnerInitials String
   userId         String
+  locationId     Int
   user           User     @relation(fields: [userId], references: [id])
+  location       Location @relation(fields: [locationId], references: [id])
 }
