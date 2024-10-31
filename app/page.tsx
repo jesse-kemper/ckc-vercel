@@ -1,13 +1,28 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import PetLogForm from "./components/PetLogForm";
 import LoginForm from "./components/LoginForm";
 //import LogoutButton from "./components/LogoutButton";
 
+type ExtendedUser = {
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  locationName?: string | null;
+};
+
+type ExtendedSession = Session & {
+  user: ExtendedUser;
+};
+
 export default function Home() {
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession() as {
+    data: ExtendedSession | null;
+    status: string;
+  };
   const router = useRouter();
 
   if (status === "loading") {
@@ -28,7 +43,7 @@ export default function Home() {
           {session ? (
             <div className="loggedInMessage">
               <p>Logged in as {session.user.email}</p>
-              {session.user.locationName && (
+              {session?.user?.locationName && (
                 <p>Location: {session.user.locationName}</p>
               )}
 

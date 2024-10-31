@@ -2,10 +2,39 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
+
+interface ExtendedSession extends Session {
+  user: {
+    id: string;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
+}
+
+interface FormData {
+  petName: string;
+  roomNumber: string;
+  date: string;
+  elimination: string;
+  consumption: string;
+  medication: string;
+  gcu: string;
+  tmInitials: string;
+  smellDirty: string;
+  pawsSoiled: string;
+  bodySoiled: string;
+  oilyDirty: string;
+  petType: string;
+  runnerInitials: string;
+}
 
 export default function PetLogForm() {
-  const { data: session } = useSession();
-  const [formData, setFormData] = useState({
+  const { data: sessionData } = useSession();
+  const session = sessionData as ExtendedSession;
+
+  const [formData, setFormData] = useState<FormData>({
     petName: "",
     roomNumber: "",
     date: "",
@@ -30,7 +59,6 @@ export default function PetLogForm() {
       return;
     }
 
-    // Convert date to ISO DateTime format
     const formattedDate = formData.date
       ? `${formData.date}T00:00:00.000Z`
       : null;
@@ -59,7 +87,7 @@ export default function PetLogForm() {
           medication: "",
           gcu: "",
           tmInitials: "",
-          runnerInitials: "dis", // Default for runnerInitials
+          runnerInitials: "dis",
           smellDirty: "",
           pawsSoiled: "",
           bodySoiled: "",
@@ -81,7 +109,6 @@ export default function PetLogForm() {
       <div className="flex justify-between items-start mb-8">
         <h1>Pet Hotel Log</h1>
       </div>
-
       <p>
         KEY: S-Stool U-Urine D-Diarrhea V-Vomit B-Blood FL-Food Left SFL-Some
         Food Left X-Ate All
@@ -102,9 +129,13 @@ export default function PetLogForm() {
             <label>{field.label}</label>
             <input
               type={field.type || "text"}
-              value={formData[field.name]}
-              onChange={(e) =>
-                setFormData({ ...formData, [field.name]: e.target.value })
+              value={formData[field.name as keyof FormData]} // Type assertion here
+              onChange={
+                (e) =>
+                  setFormData({
+                    ...formData,
+                    [field.name]: e.target.value,
+                  } as FormData) // Type assertion here
               }
             />
           </div>
@@ -131,9 +162,12 @@ export default function PetLogForm() {
                 type="radio"
                 name={field.name}
                 value="Yes"
-                checked={formData[field.name] === "Yes"}
+                checked={formData[field.name as keyof FormData] === "Yes"}
                 onChange={(e) =>
-                  setFormData({ ...formData, [field.name]: e.target.value })
+                  setFormData({
+                    ...formData,
+                    [field.name]: e.target.value,
+                  } as FormData)
                 }
               />
               <label>Yes</label>
@@ -141,9 +175,12 @@ export default function PetLogForm() {
                 type="radio"
                 name={field.name}
                 value="No"
-                checked={formData[field.name] === "No"}
+                checked={formData[field.name as keyof FormData] === "No"}
                 onChange={(e) =>
-                  setFormData({ ...formData, [field.name]: e.target.value })
+                  setFormData({
+                    ...formData,
+                    [field.name]: e.target.value,
+                  } as FormData)
                 }
               />
               <label>No</label>

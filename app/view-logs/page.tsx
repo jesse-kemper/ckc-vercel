@@ -5,8 +5,36 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export default function ViewLogs() {
-  const { data: session } = useSession();
-  const [petLogs, setPetLogs] = useState([]);
+  const { data: session } = useSession() as {
+    data: {
+      user: {
+        name?: string | null;
+        email?: string | null;
+        image?: string | null;
+        locationName?: string | null;
+        locationId?: string | null;
+      };
+    };
+  };
+  interface PetLog {
+    id: string;
+    petName: string;
+    roomNumber: string;
+    elimination: string;
+    consumption: string;
+    medication: string;
+    gcu: string;
+    smellDirty: string;
+    pawsSoiled: string;
+    bodySoiled: string;
+    oilyDirty: string;
+    petType: string;
+    date: string;
+    tmInitials: string;
+    createdAt: string;
+  }
+
+  const [petLogs, setPetLogs] = useState<PetLog[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10); // Set a default page size
   const [totalLogs, setTotalLogs] = useState(0);
@@ -36,10 +64,33 @@ export default function ViewLogs() {
   };
 
   const exportToCSV = () => {
-    const headers = ["Pet Name", "Room Number", "Date", "TM Initials"];
+    const headers = [
+      "Pet Name",
+      "Room Number",
+      "Elimination",
+      "Consumption",
+      "Medication",
+      "GCU",
+      "Smell Dirty",
+      "Paws Soiled",
+      "Body Soiled",
+      "Oily Dirty",
+      "Pet Type",
+      "Date",
+      "TM Initials",
+    ];
     const rows = petLogs.map((log) => [
       log.petName,
       log.roomNumber,
+      log.elimination,
+      log.consumption,
+      log.medication,
+      log.gcu,
+      log.smellDirty,
+      log.pawsSoiled,
+      log.bodySoiled,
+      log.oilyDirty,
+      log.petType,
       log.date,
       log.tmInitials,
     ]);
@@ -69,8 +120,8 @@ export default function ViewLogs() {
             alt="Best Friends Pet Care"
           />
 
-          <p>Logged in as {session?.user.email}</p>
-          {session?.user.locationName && (
+          {session?.user && <p>Logged in as {session.user.email}</p>}
+          {session?.user && session.user.locationName && (
             <p>Location: {session.user.locationName}</p>
           )}
           <hr />
