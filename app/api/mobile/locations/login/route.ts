@@ -12,11 +12,13 @@ export async function POST(req: NextRequest) {
   });
 
   if (!location || !location.password) {
+    console.log("NO password set or location not found");
     return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
   }
 
   // Compare passwords
   const isValid = await compare(password, location.password);
+
   if (!isValid) {
     return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
   }

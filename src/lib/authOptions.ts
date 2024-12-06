@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/lib/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { compare } from "bcrypt-ts";
+import { compare, hash } from "bcrypt-ts";
 import { SessionStrategy } from "next-auth";
 import { Session } from "next-auth";
 
@@ -20,7 +20,11 @@ export const authOptions = {
         },
         authorize: async (credentials) => {
           console.log("Attempting login with:", credentials);
-  
+          if(credentials){
+            console.log("Creds found");
+          let pw = await hash(credentials?.password, 10);
+          console.log(pw);
+        }
           // Retrieve the user by email, including location data
           const user = await prisma.user.findUnique({
             where: { email: credentials?.email }
