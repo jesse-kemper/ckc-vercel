@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
 
     // Fetch logs from the database based on the centerId
     const logs = await prisma.petLog.findMany({
-      where: { locationId: centerId },
+      where: { centerId: centerId },
       orderBy: { createdAt: 'desc' }, // Sort logs by the creation date in descending order
     });
 
