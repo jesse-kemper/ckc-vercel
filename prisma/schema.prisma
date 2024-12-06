@@ -1,11 +1,11 @@
-datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-}
-
 generator client {
   provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model Account {
@@ -14,15 +14,14 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -39,42 +38,42 @@ model User {
   id            String    @id @default(cuid())
   name          String?
   email         String?   @unique
-  password      String?   // For storing hashed passwords
   emailVerified DateTime?
   image         String?
-  locationId    Int?      // New column for Location ID
-  location      Location? @relation(fields: [locationId], references: [id]) // Define the relationship
+  password      String?
+  locationId    Int?
   accounts      Account[]
   sessions      Session[]
-  petLogs       PetLog[]
 }
 
 model Location {
-  id           Int      @id @default(autoincrement())
-  locationName String
-  users        User[]   // Define back-relation with User
-  PetLog       PetLog[]
+  id           Int     @id @default(autoincrement())
+  centerId     Int
+  locationName String  @db.VarChar(255)
+  email        String? @db.VarChar(255)
+  phone        String? @db.VarChar(50)
+  address      String? @db.VarChar(255)
+  cityState    String? @db.VarChar(255)
+  zip          String? @db.VarChar(20)
+  password     String? @db.VarChar(255)
 }
 
 model PetLog {
-  id             Int      @id @default(autoincrement())
-  createdAt      DateTime @default(now())
-  petName        String
-  roomNumber     String
-  date           DateTime
-  elimination    String
-  consumption    String
-  medication     String
-  gcu            String
-  tmInitials     String
-  smellDirty     Boolean
-  pawsSoiled     Boolean
-  bodySoiled     Boolean
-  oilyDirty      Boolean
-  petType        String
-  runnerInitials String
-  userId         String
-  locationId     Int
-  user           User     @relation(fields: [userId], references: [id])
-  location       Location @relation(fields: [locationId], references: [id])
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  petName     String
+  roomNumber  String
+  date        DateTime
+  elimination String
+  consumption String
+  medication  String
+  gcu         String
+  tmInitials  String
+  smellDirty  Boolean
+  pawsSoiled  Boolean
+  bodySoiled  Boolean
+  oilyDirty   Boolean
+  petType     String
+  petReservationId String
+  locationId  Int
 }

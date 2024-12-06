@@ -1,45 +1,8 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../lib/authOptions";
+import { authOptions } from "../../../src/lib/authOptions";
 import prisma from "../../../prisma/prisma";
 import { NextResponse } from "next/server";
 
-
-export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const data = await req.json();
-
-  try {
-    const log = await prisma.petLog.create({
-      data: {
-        petName: data.petName,
-        roomNumber: data.roomNumber,
-        date: data.date,
-        elimination: data.elimination,
-        consumption: data.consumption,
-        medication: data.medication,
-        gcu: data.gcu,
-        tmInitials: data.tmInitials,
-        smellDirty: data.smellDirty === "Yes",
-        pawsSoiled: data.pawsSoiled === "Yes",
-        bodySoiled: data.bodySoiled === "Yes",
-        oilyDirty: data.oilyDirty === "Yes",
-        petType: data.petType,
-        runnerInitials: data.runnerInitials,
-        userId: session.user.id,  // Use the user ID from the session
-        locationId: session.user.locationId,  // Include location ID if needed
-      },
-    });
-    return NextResponse.json(log);
-  } catch (error) {
-    console.error("Error creating pet log:", error); // Log the error for debugging
-    return NextResponse.json({ error: "Error creating log" }, { status: 500 });
-  }
-}
 
 export async function GET(req: Request) {
   const session = await getServerSession(authOptions);
