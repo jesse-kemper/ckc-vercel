@@ -46,34 +46,39 @@ model User {
   sessions      Session[]
 }
 
-model Location {
-  id           Int     @id @default(autoincrement())
-  centerId     Int
-  locationName String  @db.VarChar(255)
-  email        String? @db.VarChar(255)
-  phone        String? @db.VarChar(50)
-  address      String? @db.VarChar(255)
-  cityState    String? @db.VarChar(255)
-  zip          String? @db.VarChar(20)
-  password     String? @db.VarChar(255)
+model PetLog {
+  id               Int       @id @default(autoincrement())
+  createdAt        DateTime  @default(now())
+  petName          String
+  roomNumber       String
+  date             DateTime
+  elimination      String
+  consumption      String
+  medication       String
+  gcu              String
+  tmInitials       String
+  smellDirty       Boolean
+  pawsSoiled       Boolean
+  bodySoiled       Boolean
+  oilyDirty        Boolean
+  petType          String
+  petReservationId String
+
+  centerId         Int
+  location         Location  @relation(fields: [centerId], references: [centerId]) // Define the relationship
 }
 
-model PetLog {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  petName     String
-  roomNumber  String
-  date        DateTime
-  elimination String
-  consumption String
-  medication  String
-  gcu         String
-  tmInitials  String
-  smellDirty  Boolean
-  pawsSoiled  Boolean
-  bodySoiled  Boolean
-  oilyDirty   Boolean
-  petType     String
-  petReservationId String
-  locationId  Int
+model Location {
+  id           Int      @id @default(autoincrement())
+  centerId     Int      @unique // Ensure `centerId` is unique to allow reference
+  locationName String
+  email        String?  @unique
+  phone        String?
+  address      String?
+  cityState    String?
+  zip          String?
+  password     String?
+
+  petLogs      PetLog[] // Back-reference to PetLogs
 }
+

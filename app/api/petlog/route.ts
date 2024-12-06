@@ -1,11 +1,10 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../../src/lib/authOptions";
-import prisma from "../../../prisma/prisma";
+import { getServerSession } from "next-auth/next"; // Ensure correct import path
+import { authOptions } from "@/lib/authOptions"; // Update the import path based on your project structure
+import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-
 export async function GET(req: Request) {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions); // Pass the `authOptions` directly
 
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -22,19 +21,19 @@ export async function GET(req: Request) {
 
   try {
     const logs = await prisma.petLog.findMany({
-      where: { locationId: parseInt(locationId) },
+      where: { centerId: parseInt(locationId) },
       orderBy: { date: "desc" },
       skip: (page - 1) * pageSize,
       take: pageSize,
     });
 
     const totalLogs = await prisma.petLog.count({
-      where: { locationId: parseInt(locationId) },
+      where: { centerId: parseInt(locationId) },
     });
 
     return NextResponse.json({ logs, totalLogs });
   } catch (error) {
-    console.error("Error fetching logs:", error); // Log the error for debugging
+    console.error("Error fetching logs:", error);
     return NextResponse.json({ error: "Error fetching logs" }, { status: 500 });
   }
 }

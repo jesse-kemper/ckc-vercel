@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
       oilyDirty,
       petType,
       petReservationId,
-      locationId: parseInt(locationId), // Assuming locationId is an integer
+      centerId: parseInt(locationId), // Assuming locationId is an integer
     },
   });
 

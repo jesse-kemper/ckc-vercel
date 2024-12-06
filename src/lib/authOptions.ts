@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcrypt-ts";
 import { SessionStrategy } from "next-auth";
-import { Session } from "inspector/promises";
+import { Session } from "next-auth";
 
 export const authOptions = {
     adapter: PrismaAdapter(prisma),
@@ -23,8 +23,7 @@ export const authOptions = {
   
           // Retrieve the user by email, including location data
           const user = await prisma.user.findUnique({
-            where: { email: credentials?.email },
-            include: { location: true }, // Fetch the user's location
+            where: { email: credentials?.email }
           });
   
           if (!user) {
@@ -43,8 +42,6 @@ export const authOptions = {
             id: user.id,
             email: user.email,
             name: user.name,
-            locationName: user.location?.locationName || null, // Include locationName
-            locationId: user.location?.id || null, // Include locationId
           };
         },
       }),
@@ -56,8 +53,6 @@ export const authOptions = {
           token.id = user.id;
           token.email = user.email;
           token.name = user.name;
-          token.locationName = user.locationName; // Add location to the token
-          token.locationId = user.locationId; // Add location ID to the token
           
         }
         return token;
@@ -68,8 +63,6 @@ export const authOptions = {
           session.user.id = token.id;
           session.user.email = token.email;
           session.user.name = token.name;
-          session.user.locationName = token.locationName; // Add location to the session
-          session.user.locationId = token.locationId; // Add location ID to the session
         }
         return session;
       },
